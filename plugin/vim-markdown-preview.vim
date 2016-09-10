@@ -55,7 +55,10 @@ function! Vim_Markdown_Preview()
   if g:vim_markdown_preview_github == 1
     call system('grip "' . b:curr_file . '" --export /tmp/vim-markdown-preview.html --title vim-markdown-preview.html')
   else
-    call system('markdown "' . b:curr_file . '" > /tmp/vim-markdown-preview.html')
+    call system("echo '<link rel=\"stylesheet\" type=\"text/css\" href=\"vim_markdown.css\">' > /tmp/vim-markdown-preview.html")
+    call system("echo '<body class=\"markdown-body\"> >> /tmp/vim-markdown-preview.html')
+    call system('markdown "' . b:curr_file . '" >> /tmp/vim-markdown-preview.html')
+    call system("echo '</body>' >> /tmp/vim-markdown-preview.html")
   endif
 
   if g:vmp_osname == 'unix'
@@ -102,7 +105,10 @@ function! Vim_Markdown_Preview_Local()
   if g:vim_markdown_preview_github == 1
     call system('grip "' . b:curr_file . '" --export vim-markdown-preview.html --title vim-markdown-preview.html')
   else
-    call system('markdown "' . b:curr_file . '" > vim-markdown-preview.html')
+    call system("echo '<link rel=\"stylesheet\" type=\"text/css\" href=\"vim_markdown.css\">' > " . b:curr_file . '.html')
+    call system("echo '<body class=\"markdown-body\">' >> " . b:curr_file . '.html')
+    call system('markdown "' . b:curr_file . '" >> ' . b:curr_file . '.html')
+    call system("echo '</body>' >> " . b:curr_file . '.html')
   endif
 
   if g:vmp_osname == 'unix'
